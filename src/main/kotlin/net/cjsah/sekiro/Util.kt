@@ -5,7 +5,7 @@ import javax.swing.AbstractListModel
 import javax.swing.JList
 
 object Util {
-    private val sekiroPath = File(System.getProperty("user.home") + "/AppData/Roaming/Sekiro")
+    private val sekiroPath = File("${System.getProperty("user.home")}/AppData/Roaming/Sekiro")
     private val bakPaths = File(sekiroPath, "backups")
     private val gamePath = File(sekiroPath, "76561198845150511")
 
