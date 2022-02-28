@@ -4,7 +4,6 @@ import javax.swing.UIManager
 
 fun main() {
     UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel")
-
-    Util.update()
+    Util.init()
     MainFrame().isVisible = true
 }

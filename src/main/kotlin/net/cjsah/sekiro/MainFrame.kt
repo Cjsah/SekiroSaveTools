@@ -21,7 +21,7 @@ class MainFrame : JFrame("只狼存档管理器") {
         this.isVisible = false
     }
 
-    val list = JList<String>().apply {
+    val list = JList<SaveData>().apply {
         this.selectionMode = SINGLE_SELECTION
         this.update()
     }
@@ -50,8 +50,8 @@ class MainFrame : JFrame("只狼存档管理器") {
             this.setBounds(89, 12, 71, 50)
             this.addActionListener {
                 if (list.selectedIndex == -1) this@MainFrame.setLabel("没有存档")
-                else if (Util.redo(list.selectedValue)) successLabel()
-                else cancelLabel()
+                else if (Util.redo(list.selectedValue.uuid)) successLabel()
+                else failureLabel()
             }
         })
 
@@ -59,8 +59,8 @@ class MainFrame : JFrame("只狼存档管理器") {
             this.setBounds(12, 68, 71, 50)
             this.addActionListener {
                 if (list.selectedIndex == -1) this@MainFrame.setLabel("没有存档")
-                else PopDialog(this@MainFrame, "删除存档", "确认要删除存档 \"${list.selectedValue}\" 吗") {
-                    Util.remove(list.selectedValue)
+                else NormalPopDialog(this@MainFrame, "删除存档", "确认要删除存档 '${list.selectedValue.name}' 吗") {
+                    Util.remove(list.selectedValue.uuid)
                 }.isVisible = true
             }
         })
@@ -70,7 +70,7 @@ class MainFrame : JFrame("只狼存档管理器") {
             this.addActionListener {
                 if (list.selectedIndex == -1) this@MainFrame.setLabel("没有存档")
                 else TextPopDialog(this@MainFrame, "重命名存档", "存档名称") {
-                    Util.rename(list.selectedValue, it)
+                    Util.rename(list.selectedValue.uuid, it)
                 }.isVisible = true
             }
         })
@@ -86,6 +86,10 @@ class MainFrame : JFrame("只狼存档管理器") {
 
     fun successLabel() {
         setLabel("操作成功")
+    }
+
+    fun failureLabel() {
+        setLabel("操作失败")
     }
 
     private fun setLabel(message: String) {
